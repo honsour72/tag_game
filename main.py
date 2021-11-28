@@ -6,9 +6,12 @@ class Game:
         self.working = True
         self.node_parts = ["╔════╗", "║ {} ║", "╚════╝"]
         self.nums = [str(x) for x in range(1, 16)] + [" "]
-        shuffle(self.nums)
+        # shuffle(self.nums)
         self.empty_x, self.empty_y = 0, 0
-        self.win_message = "╔═══════════════════════════╗\n║ ПОЗДРАВЛЯЕМ, ВЫ ПОБЕДИЛИ! ║\n╚═══════════════════════════╝"
+        self.counter = 0
+        self.win_message = "╔═══════════════════════════╗\n" \
+                           "║ ПОЗДРАВЛЯЕМ, ВЫ ПОБЕДИЛИ! ║\n" \
+                           "╚═══════════════════════════╝\nКоличество ходов: {}"
 
     def show_current_map(self):
         for row in range(4):
@@ -37,6 +40,7 @@ class Game:
 
     def analyze_step(self, number):
         if self.is_number_exist(number):
+            self.counter += 1
             number_x, number_y = self.get_node_pos(number)
             # если введенное число в одной строке с пустой ячейкой
             # if abs(number_x - self.empty_x) == 0:
@@ -68,7 +72,7 @@ class Game:
         if self.nums == [str(x) for x in range(1, 16)] + [" "] or \
                 self.nums == ["1", "5", "9", "13", "2", "6", "10", "14", "3", "7", "11", "15", "4", "8", "12", " "]:
             self.show_current_map()
-            print(self.win_message)
+            print(self.win_message.format(self.counter))
             self.working = False
 
 
