@@ -1,9 +1,3 @@
-class Figure:
-    def __init__(self, fig_type, position_x, position_y):
-        self.type = fig_type
-        self.x, self.y = position_x, position_y
-
-
 class Game:
     def __init__(self):
         self.pole = [[" ", "A", "B", "C", "D", "E", "F", "G", "H", " "],
@@ -20,6 +14,7 @@ class Game:
         self.letter_index = {"A": 1, "B": 2, "C": 3, "D": 4, "E": 5, "F": 6, "G": 7, "H": 8}
         self.playing = True
         self.current_player = 1
+        self.step_counter = 0
 
     def show_pole(self):
         for row in self.pole[::-1]:
@@ -51,6 +46,7 @@ class Game:
                         # analyze figure's opportunity to do this step
                         if finish_position in available_moves:
                             self.change_places(is_figure, start_position, finish_position)
+                            self.step_counter += 1
                             if self.current_player == 1:
                                 self.current_player = 0
                             else:
@@ -98,11 +94,11 @@ class Game:
         if figure == "P" or figure == 'p':
             if self.current_player:
                 if start_position[1] == "2":
-                    all_moves = [start_position[0] + str(int(start_position[1])+1),
-                                       start_position[0] + str(int(start_position[1])+2)]
+                    all_moves = [start_position[0] + str(int(start_position[1]) + 1),
+                                 start_position[0] + str(int(start_position[1]) + 2)]
                 else:
-                    left_diag = self.pole[int(start_position[1])+1][self.letter_index[start_position[0]] - 1]
-                    right_diag = self.pole[int(start_position[1])+1][self.letter_index[start_position[0]] + 1]
+                    left_diag = self.pole[int(start_position[1]) + 1][self.letter_index[start_position[0]] - 1]
+                    right_diag = self.pole[int(start_position[1]) + 1][self.letter_index[start_position[0]] + 1]
                     print("Left diagonal:", left_diag)
                     print("Right diagonal:", right_diag)
                     front_position = start_position[0] + str(int(start_position[1]) + 1)
@@ -114,21 +110,21 @@ class Game:
                         all_moves.append(
                             list(self.letter_index.keys())[
                                 list(self.letter_index.keys()).index(start_position[0]) - 1
-                            ] + str(int(start_position[1]) + 1)
+                                ] + str(int(start_position[1]) + 1)
                         )
                     if right_diag != "•" and not right_diag.isdigit():
                         all_moves.append(
                             list(self.letter_index.keys())[
                                 list(self.letter_index.keys()).index(start_position[0]) + 1
-                            ] + str(int(start_position[1]) + 1)
+                                ] + str(int(start_position[1]) + 1)
                         )
             else:
                 if start_position[1] == "7":
-                    all_moves = [start_position[0] + str(int(start_position[1])-1),
-                                       start_position[0] + str(int(start_position[1])-2)]
+                    all_moves = [start_position[0] + str(int(start_position[1]) - 1),
+                                 start_position[0] + str(int(start_position[1]) - 2)]
                 else:
-                    left_diag = self.pole[int(start_position[1])-1][self.letter_index[start_position[0]] - 1]
-                    right_diag = self.pole[int(start_position[1])-1][self.letter_index[start_position[0]] + 1]
+                    left_diag = self.pole[int(start_position[1]) - 1][self.letter_index[start_position[0]] - 1]
+                    right_diag = self.pole[int(start_position[1]) - 1][self.letter_index[start_position[0]] + 1]
                     print("Left diagonal:", left_diag)
                     print("Right diagonal:", right_diag)
                     front_position = start_position[0] + str(int(start_position[1]) - 1)
@@ -140,13 +136,13 @@ class Game:
                         all_moves.append(
                             list(self.letter_index.keys())[
                                 list(self.letter_index.keys()).index(start_position[0]) - 1
-                            ] + str(int(start_position[1]) - 1)
+                                ] + str(int(start_position[1]) - 1)
                         )
                     if right_diag != "•" and not right_diag.isdigit():
                         all_moves.append(
                             list(self.letter_index.keys())[
                                 list(self.letter_index.keys()).index(start_position[0]) + 1
-                            ] + str(int(start_position[1]) - 1)
+                                ] + str(int(start_position[1]) - 1)
                         )
             available_moves = all_moves
 
@@ -203,7 +199,8 @@ class Game:
     def update_game(self):
         pass
 
-    def show_error(self, error):
+    @staticmethod
+    def show_error(error):
         print(error)
 
 
